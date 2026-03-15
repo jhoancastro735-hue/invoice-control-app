@@ -1,3 +1,4 @@
+import "./CameraPage.css"
 import { takePhoto, selectFromGallery } from "../../infrastructure/camera.service"
 import { usePhoto } from "../../hooks/usePhoto"
 
@@ -37,15 +38,37 @@ export function CameraPage() {
 
   return (
 
-    <div>
+    <div className="camera-page">
 
-      <button onClick={handleTakePhoto}>
-        Take Photo
-      </button>
+      <div className="camera-card">
 
-      <button onClick={handleGallery}>
-        Choose From Gallery
-      </button>
+        <h1 className="camera-title">
+          Take a Photo
+        </h1>
+
+        <p className="camera-subtitle">
+          Capture a new image or select one from your gallery
+        </p>
+
+        <div className="camera-actions">
+
+          <button
+            className="camera-btn primary"
+            onClick={handleTakePhoto}
+          >
+            📸 Take Photo
+          </button>
+
+          <button
+            className="camera-btn secondary"
+            onClick={handleGallery}
+          >
+            🖼 Choose From Gallery
+          </button>
+
+        </div>
+
+      </div>
 
     </div>
 

@@ -1,0 +1,161 @@
+.camera-page {
+
+  min-height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  background: linear-gradient(
+    180deg,
+    #f8fafc 0%,
+    #eef2f7 100%
+  );
+
+  font-family: -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
+
+}
+
+.camera-card {
+
+  width: 100%;
+  max-width: 420px;
+
+  background: white;
+
+  border-radius: 20px;
+
+  padding: 30px 24px;
+
+  box-shadow:
+    0 10px 25px rgba(0,0,0,0.08);
+
+  text-align: center;
+
+}
+
+.camera-title {
+
+  font-size: 24px;
+  font-weight: 600;
+
+  margin-bottom: 6px;
+
+  color: #111;
+
+}
+
+.camera-subtitle {
+
+  font-size: 14px;
+
+  color: #6b7280;
+
+  margin-bottom: 28px;
+
+}
+
+.camera-actions {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 14px;
+
+}
+
+.camera-btn {
+
+  height: 52px;
+
+  border-radius: 14px;
+
+  border: none;
+
+  font-size: 16px;
+
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+
+}
+
+.camera-btn:active {
+
+  transform: scale(0.96);
+
+}
+
+.camera-btn.primary {
+
+  background: #111;
+
+  color: white;
+
+}
+
+.camera-btn.primary:hover {
+
+  background: #000;
+
+}
+
+.camera-btn.secondary {
+
+  background: #f1f5f9;
+
+  color: #111;
+
+}
+
+.camera-btn.secondary:hover {
+
+  background: #e2e8f0;
+
+}
+
+/* iOS spacing fix */
+
+@supports(padding: max(0px)) {
+
+  .camera-page {
+
+    padding-top: max(20px, env(safe-area-inset-top));
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
+
+  }
+
+}
+
+/* tablets */
+
+@media (min-width: 600px) {
+
+  .camera-card {
+
+    max-width: 460px;
+
+  }
+
+}
+
+/* large devices */
+
+@media (min-width: 900px) {
+
+  .camera-card {
+
+    max-width: 520px;
+
+  }
+
+}
