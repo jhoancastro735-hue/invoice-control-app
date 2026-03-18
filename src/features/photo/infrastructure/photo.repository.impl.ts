@@ -1,16 +1,20 @@
 import { PhotoRepository } from "../domain/interfaces/PhotoRepository"
 import { Photo } from "../domain/entities/Photo"
-import { apiClient } from "../../../core/api/apiClient"
+import axios from "axios"
 
 export class PhotoRepositoryImpl implements PhotoRepository {
 
   async uploadPhoto(photo: Photo) {
 
     const formData = new FormData()
-    formData.append("file", photo.file)
+    formData.append("data", photo.file)
 
-    const response = await apiClient.post("/upload", formData, {
+    // Aquí pones tu webhook de n8n
+    const WEBHOOK_URL = "https://thepodmaker.app.n8n.cloud/webhook/upload" 
+
+    const response = await axios.post(WEBHOOK_URL, formData, {
       headers: {
+        // IMPORTANTE: No pongas application/json, deja que axios genere multipart/form-data
         "Content-Type": "multipart/form-data"
       }
     })
