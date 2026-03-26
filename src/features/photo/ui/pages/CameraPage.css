@@ -1,11 +1,9 @@
 .camera-page {
-
   min-height: 100vh;
-
   display: flex;
-  align-items: center;
-  justify-content: center;
-
+  flex-direction: column; /* 🔥 importante para mobile */
+  align-items: stretch;
+  justify-content: flex-start;
   padding: 20px;
 
   background: linear-gradient(
@@ -19,183 +17,164 @@
     "Segoe UI",
     Roboto,
     sans-serif;
-
 }
 
+/* CARD SUPERIOR */
 .camera-card {
-
   width: 100%;
   max-width: 420px;
+  margin: 0 auto;
 
   background: white;
-
   border-radius: 20px;
+  padding: 24px;
 
-  padding: 30px 24px;
-
-  box-shadow:
-    0 10px 25px rgba(0,0,0,0.08);
-
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
   text-align: center;
-
 }
 
 .camera-title {
-
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 600;
-
   margin-bottom: 6px;
-
   color: #111;
-
 }
 
 .camera-subtitle {
-
   font-size: 14px;
-
   color: #6b7280;
-
-  margin-bottom: 28px;
-
+  margin-bottom: 20px;
 }
 
 .camera-actions {
-
   display: flex;
-
   flex-direction: column;
-
-  gap: 14px;
-
+  gap: 12px;
 }
 
 .camera-btn {
-
-  height: 52px;
-
+  height: 50px;
   border-radius: 14px;
-
   border: none;
-
-  font-size: 16px;
-
+  font-size: 15px;
   font-weight: 500;
-
   cursor: pointer;
-
   transition: all 0.2s ease;
-
 }
 
 .camera-btn:active {
-
   transform: scale(0.96);
-
 }
 
 .camera-btn.primary {
-
   background: #111;
-
   color: white;
-
-}
-
-.camera-btn.primary:hover {
-
-  background: #000;
-
 }
 
 .camera-btn.secondary {
-
   background: #f1f5f9;
-
   color: #111;
-
 }
 
-.camera-btn.secondary:hover {
-
-  background: #e2e8f0;
-
+/* LOADER */
+.loader {
+  margin-top: 10px;
+  height: 4px;
+  width: 100%;
+  background: linear-gradient(90deg, #000, #999);
+  animation: loading 1s infinite;
 }
 
+@keyframes loading {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* LISTA */
 .uploaded-photos {
-  margin-top: 2rem;
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 12px;
 }
 
-.photo-response-card {
-  background-color: #ffffff;
-  padding: 1rem 1.5rem;
-  border-radius: 14px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  transition: transform 0.2s;
-  width: 100%;
-  word-break: break-word; /* evita que texto largo se desborde */
+/* CARD FACTURA */
+.invoice-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.photo-response-card:hover {
-  transform: translateY(-2px);
+/* HEADER */
+.invoice-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.photo-response-card h3 {
-  margin: 0 0 0.5rem 0;
-  color: #111827; /* un gris más oscuro */
-  font-size: 18px;
-}
-
-.photo-response-card ul {
-  list-style: none;
-  padding: 0;
+.invoice-header h3 {
   margin: 0;
+  font-size: 16px;
 }
 
+.invoice-header span {
+  font-size: 12px;
+  color: #6b7280;
+}
 
-.photo-response-card li {
-  margin: 0.25rem 0;
-  color: #374151; /* gris intermedio */
+.invoice-total {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* BODY */
+.invoice-body .provider {
+  font-weight: 500;
   font-size: 14px;
 }
 
-/* iOS spacing fix */
+.invoice-body .cuit {
+  font-size: 12px;
+  color: #6b7280;
+}
 
+/* TAXES */
+.invoice-tax {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  font-size: 12px;
+}
+
+.invoice-tax div {
+  background: #f8fafc;
+  padding: 8px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+/* iOS safe area */
 @supports(padding: max(0px)) {
-
   .camera-page {
-
     padding-top: max(20px, env(safe-area-inset-top));
     padding-bottom: max(20px, env(safe-area-inset-bottom));
-
   }
-
 }
 
 /* tablets */
-
 @media (min-width: 600px) {
-
   .camera-card {
-
     max-width: 460px;
-
   }
-
 }
 
-/* large devices */
-
+/* desktop */
 @media (min-width: 900px) {
-
   .camera-card {
-
     max-width: 520px;
-
   }
-
 }

@@ -3,27 +3,51 @@ import { takePhoto, selectFromGallery } from "../../infrastructure/camera.servic
 import { usePhoto } from "../../hooks/usePhoto"
 import { useState } from "react"
 
+interface Invoice {
+  numero: string
+  fecha: string
+  proveedor: string
+  cuit: string
+  total: number
+  iva21: number
+  iva105: number
+  ingresosBrutos: number
+}
+
 interface UploadedPhoto {
   file: File
   preview: string
-  response: any
+  response: Invoice
 }
+
+// 🔥 Normalizador del backend
+const normalizeInvoice = (data: any): Invoice => ({
+  numero: data.numero_factura,
+  fecha: data.fecha,
+  proveedor: data["razon social"],
+  cuit: data.CUIT,
+  total: data.TOTAL,
+  iva21: data["IVA 21%"] || 0,
+  iva105: data["IVA 10,5%"] || 0,
+  ingresosBrutos: data["PERC. IB CABA"] || 0
+})
 
 export function CameraPage() {
   const { upload, loading } = usePhoto()
   const [uploadedPhotos, setUploadedPhotos] = useState<UploadedPhoto[]>([])
 
   const handleFileUpload = async (file: File) => {
-    // Generar preview local
     const preview = URL.createObjectURL(file)
 
     try {
       const response = await upload(file)
 
-      // Guardar en la lista
+      //Normalizar respuesta
+      const normalized = normalizeInvoice(response)
+
       setUploadedPhotos(prev => [
         ...prev,
-        { file, preview, response }
+        { file, preview, response: normalized }
       ])
     } catch (err) {
       console.error("Error uploading photo:", err)
@@ -52,33 +76,61 @@ export function CameraPage() {
     <div className="camera-page">
 
       <div className="camera-card">
-
-        <h1 className="camera-title">Take a Photo</h1>
-        <p className="camera-subtitle">Capture a new image or select one from your gallery</p>
+        <h1 className="camera-title">Escanear Factura</h1>
+        <p className="camera-subtitle">
+          Toma una foto o selecciona desde tu galería
+        </p>
 
         <div className="camera-actions">
           <button className="camera-btn primary" onClick={handleTakePhoto} disabled={loading}>
-            📸 Take Photo
+            📸 Tomar foto
           </button>
           <button className="camera-btn secondary" onClick={handleGallery} disabled={loading}>
-            🖼 Choose From Gallery
+            🖼 Galería
           </button>
         </div>
 
-        {loading && <p>Uploading photo...</p>}
-
+        {loading && <div className="loader"></div>}
       </div>
 
+      {/* LISTA */}
       <div className="uploaded-photos">
         {uploadedPhotos.map((item, index) => (
-          <div key={index} className="photo-response-card">
-            <h3>Factura: {item.response.numero_factura}</h3>
-            <ul>
-              <li><strong>Fecha:</strong> {item.response.fecha}</li>
-              <li><strong>Proveedor:</strong> {item.response.proveedor}</li>
-              <li><strong>Total:</strong> €{item.response.total.toFixed(2)}</li>
-              <li><strong>Impuestos:</strong> €{item.response.impuestos.toFixed(2)}</li>
-            </ul>
+          <div key={index} className="invoice-card">
+
+            {/* HEADER */}
+            <div className="invoice-header">
+              <div>
+                <h3>#{item.response.numero}</h3>
+                <span>{item.response.fecha}</span>
+              </div>
+              <strong className="invoice-total">
+                ${item.response.total.toLocaleString()}
+              </strong>
+            </div>
+
+            {/* BODY */}
+            <div className="invoice-body">
+              <p className="provider">{item.response.proveedor}</p>
+              <p className="cuit">CUIT: {item.response.cuit}</p>
+            </div>
+
+            {/* IMPUESTOS */}
+            <div className="invoice-tax">
+              <div>
+                <span>IVA 21%</span>
+                <strong>${item.response.iva21}</strong>
+              </div>
+              <div>
+                <span>IVA 10.5%</span>
+                <strong>${item.response.iva105}</strong>
+              </div>
+              <div>
+                <span>IIBB</span>
+                <strong>${item.response.ingresosBrutos}</strong>
+              </div>
+            </div>
+
           </div>
         ))}
       </div>
